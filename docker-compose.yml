@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  clip_backend:
+    container_name: clip_backend
+    restart: unless-stopped
+    build:
+      context: .
+    ports:
+      - "8088:8000"
+    volumes:
+      - clip_static:/clip_backend/static
+      - clip_media:/clip_backend/media
+volumes:
+  clip_static:
+  clip_media:
