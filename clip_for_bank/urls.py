@@ -18,13 +18,16 @@ from django.urls import path, include
 from rest_framework.authtoken import views
 from rest_framework import routers
 
-from base.views import UserNewViewSet, CreditTestViewSet, ProductViewSet, DocumentsViewSet
+from base.views import UserNewViewSet, CreditTestViewSet, ProductViewSet, DocumentsViewSet, HistoryViewSet, \
+    StatusCreditViewSet
 
 router = routers.DefaultRouter()
 router.register(r'user', UserNewViewSet)
 router.register(r'credittest', CreditTestViewSet)
 router.register(r'product', ProductViewSet)
 router.register(r'documents', DocumentsViewSet)
+router.register(r'history', HistoryViewSet)
+router.register(r'status', StatusCreditViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

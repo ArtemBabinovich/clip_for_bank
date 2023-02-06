@@ -29,6 +29,8 @@ ADRESS_REGISTR = [
 
 
 class UserNew(AbstractUser):
+    sur_name = models.CharField(verbose_name='Отчество', max_length=100, blank=True, null=True)
+    avatar = models.FileField(verbose_name='фотография', upload_to='avatar_user/', blank=True, null=True)
     salary = models.CharField(max_length=100, blank=True, null=True, verbose_name='Зарплата')
     date_of_birth = models.DateField(null=True, blank=True, verbose_name='Дата рождения')
     mobil_phone_number = models.CharField(max_length=20, null=True, blank=True, verbose_name='Номер телефона')
@@ -70,6 +72,7 @@ class CreditTest(models.Model):
 
 
 class Product(models.Model):
+    foto = models.FileField('фотка', upload_to='product/', blank=True, null=True)
     name_product = models.CharField(max_length=200, verbose_name='Название товара')
     cost = models.CharField(max_length=200, verbose_name='Цена товара')
     name_shop = models.CharField(max_length=250, verbose_name='Название магазина партнера')
@@ -92,3 +95,24 @@ class Documents(models.Model):
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
+
+
+class History(models.Model):
+    user = models.ForeignKey(UserNew, on_delete=models.CASCADE, related_name='history')
+    product = models.CharField('Продукт', max_length=250)
+    shop = models.CharField('Магазин', max_length=250)
+    price = models.CharField('Цена', max_length=150)
+    credit = models.ForeignKey(CreditTest, on_delete=models.CASCADE)
+    date = models.DateField()
+    status = models.CharField('статус', max_length=200)
+
+    class Meta:
+        db_table = 'history'
+
+
+class StatusCredit(models.Model):
+    name = models.ForeignKey(CreditTest, verbose_name='название продукта', on_delete=models.CASCADE)
+    text = models.CharField('Статус', max_length=150)
+
+    class Meta:
+        db_table = 'status_credit'
